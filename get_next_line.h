@@ -10,15 +10,8 @@
 #  define BUFFER_SIZE 42
 #endif
 
-typedef struct s_fragment
-{
-	char				buff[BUFFER_SIZE];
-	int					sz;
-	int					eof;
-	struct s_fragment	*next;
-}						t_fragment;
-
 char	*get_next_line(int fd);
-void	ft_add_back(t_fragment **node, int fd);
+char	*ft_strrchr(const char *s, int c);
+int	ft_strlen(char *str);
 
 #endif

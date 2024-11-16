@@ -1,61 +1,56 @@
 #include "get_next_line.h"
 
-int	ft_check_nl(t_fragment *head)
+static int	ft_has_nl(char	*str)
 {
-	int	i;
-
-	if (!head)
-		return (0);
-	i = 0;
-	while (head->buff[i])
+	while (*str)
 	{
-		if (head->buff[i++] == '\n')
+		if (*str == '\n')
 			return (1);
+		str++;
 	}
 	return (0);
 }
 
-void	ft_create_lst(t_fragment **head, int fd)
+static char	*ft_get_line(int fd)
 {
-	t_fragment	*tmp;
+	char	*buff;
 
-	if (!head)
-		return ;
-	if (!*head)
-		ft_add_back(head, fd);
-	tmp = *head;
-	while (!ft_check_nl(tmp))
-	{
-		ft_add_back(&tmp, fd);
-		tmp = tmp->next;
-	}
+	buff = malloc(BUFFER_SIZE * sizeof(char));
+	read(fd, buff, BUFFER_SIZE);
+	return (buff);
 }
 
 char	*get_next_line(int fd)
 {
-	char				*ret;
-	static t_fragment	*head;
+	int			sz;
+	int			offset;
+	char		*ret;
+	char		*bytes;
+	char		*nl_pos;
+	static char	*surplus;
 
-	ret = NULL;
-	if (!ft_check_nl(head))
-		ft_create_lst(&head, fd);
-	printf("%s$\n", head->buff);
-	head = head->next;
-	printf("test %s$\n", head->buff);
-	//ret = ft_extract_nl(head);
-	//ft_reset(head);
+	if (!surplus)
+		bytes = ft_get_line(fd);
+	while (!ft_has_nl(bytes))
+	{
+		bytes = ft_get_line(fd);
+		sz += BUFFER_SIZE;
+	}
+	nl_pos = ft_strrchr(bytes, '\n');
+	offset = ft_strlen(nl_pos);
+	ret = malloc((sz + 1 - offset) * sizeof(char));
 	return (ret);
 }
 
-int	main()
+int	main(void)
 {
 	int	fd;
 
 	fd = open("./text.txt", O_RDWR);
 	printf("%s$\n", get_next_line(fd));
 	printf("%s$\n", get_next_line(fd));
-	//printf("%s$\n", get_next_line(fd));
-	//printf("%s$\n", get_next_line(fd));
-	//printf("%s$\n", get_next_line(fd));
+	printf("%s$\n", get_next_line(fd));
+	printf("%s$\n", get_next_line(fd));
+	printf("%s$\n", get_next_line(fd));
 	return (0);
 }

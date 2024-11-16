@@ -1,26 +1,27 @@
 #include "get_next_line.h"
 
-void	ft_add_back(t_fragment **node, int fd)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_fragment	*new;
-	int			bytes;
+	char	*p_s;
 
-	if (!node)
-		return ;
-	new = malloc(sizeof(t_fragment));
-	if (!new)
-		return ;
-	bytes = read(fd, new->buff, BUFFER_SIZE);
-	if (bytes < BUFFER_SIZE)
-		(*node)->eof = 1;
-	if (!*node)
-		*node = new;
-	else if (!(*node)->next)
-		(*node)->next = new;
-	else
+	p_s = NULL;
+	while (*s)
 	{
-		while ((*node)->next)
-			*node = (*node)->next;
-		(*node)->next = new;
+		if (*s == (char)c)
+			p_s = (char *)s;
+		s++;
 	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (p_s);
+}
+
+int	ft_strlen(char	*str)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*str++)
+		cnt++;
+	return (cnt);
 }
