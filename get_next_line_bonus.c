@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yhajbi <yhajbi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 12:49:33 by yhajbi            #+#    #+#             */
-/*   Updated: 2024/11/19 02:26:42 by yhajbi           ###   ########.fr       */
+/*   Created: 2024/11/18 20:55:51 by yhajbi            #+#    #+#             */
+/*   Updated: 2024/11/19 01:55:55 by yhajbi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 /* check_head:
  * takes a node and checks if it has a newline
@@ -125,13 +125,13 @@ static char	*ft_get_line(t_fragment *p_head, int fd)
 
 char	*get_next_line(int fd)
 {
-	static t_fragment	head;
+	static t_fragment	head[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) == -1)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= OPEN_MAX || read(fd, NULL, 0) == -1)
 	{
-		head.sz = 0;
+		head[fd].sz = 0;
 		return (NULL);
 	}
-	head.next = NULL;
-	return (ft_get_line(&head, fd));
+	head[fd].next = NULL;
+	return (ft_get_line(&head[fd], fd));
 }
