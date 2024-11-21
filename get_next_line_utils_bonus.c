@@ -6,7 +6,7 @@
 /*   By: yhajbi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:56:03 by yhajbi            #+#    #+#             */
-/*   Updated: 2024/11/18 20:56:06 by yhajbi           ###   ########.fr       */
+/*   Updated: 2024/11/21 01:13:48 by yhajbi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * (including the \n, by doing length++
  * before checking if we reached the \n) */
 
-static ssize_t	ft_calc_len(t_fragment *p_head)
+static size_t	ft_calc_len(t_fragment *p_head)
 {
 	ssize_t		i;
 	ssize_t		sum;
@@ -93,7 +93,7 @@ char	*ft_defragment(t_fragment *p_head)
 {
 	ssize_t		i;
 	ssize_t		j;
-	ssize_t		length;
+	size_t		length;
 	char		*line;
 	t_fragment	*node;
 
